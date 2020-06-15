@@ -11,9 +11,10 @@ const fileUpload = require('express-fileupload');
 const Sentry = require('@sentry/node');
 
 const app = express();
-const port = 9999;
+const port = process.env.PORT || 9999;
 
-mongoose.connect("mongodb://localhost/elimoo", {useNewUrlParser: true, useUnifiedTopology: true});
+//mongoose.connect("mongodb://localhost/elimoo", {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect("mongodb+srv://elimooDBUser:elimooDB123@cluster0-z5xos.mongodb.net/elimoo?retryWrites=true&w=majority", {useNewUrlParser: true, useUnifiedTopology: true});
 var db = mongoose.connection;
 
 if(!db)
