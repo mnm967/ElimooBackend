@@ -1375,7 +1375,7 @@ exports.forgot_password_email = function(req, res){
                         </html>`;
                         const msg = {
                             to: req.body.email,
-                            from: 'noreply@elimoo.co.za',
+                            from: 'noreply@elimoo.com',
                             subject: 'Elimoo Password Reset',
                             html: html,
                           };
