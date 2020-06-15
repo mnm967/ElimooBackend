@@ -20,6 +20,7 @@
     "md5": "^2.2.1",
     "mongoose": "^5.9.15",
     "nodemailer": "^6.4.6",
+    "nodemailer-sendmail-transport": "^1.0.2",
     "nodemon": "^2.0.4",
     "otp-generator": "^1.1.0",
     "sendmail": "^1.6.1"
