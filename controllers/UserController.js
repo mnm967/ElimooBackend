@@ -566,7 +566,7 @@ exports.email_confirmation = function(req, res){
                                 res.json({
                                     status: 'success',
                                     message: 'email_sent',
-                                    data: info
+                                    data: USER
                                 });
                             })
                             .catch((err) => {
