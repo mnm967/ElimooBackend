@@ -4,10 +4,9 @@ const Notification = require('../models/Notifications');
 const EmailConfirmation = require('../models/EmailConfirmation');
 const PasswordReset = require('../models/PasswordReset');
 const sendmail = require('sendmail')();
-const sgMail = require('@sendgrid/mail');
-const mailjet = require ('node-mailjet')
-.connect('27dcb3a02ae46194e940a2d08f187c49', '7cd72286c97792c71fe20c6b57fafcc6')
-sgMail.setApiKey('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');
+//const sgMail = require('@sendgrid/mail');
+//sgMail.setApiKey('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');
+const mailjet = require ('node-mailjet').connect('27dcb3a02ae46194e940a2d08f187c49', '7cd72286c97792c71fe20c6b57fafcc6');
 const nodemailer = require("nodemailer");
 const otpGenerator = require('otp-generator');
 const md5 = require('md5');
@@ -380,12 +379,12 @@ exports.email_confirmation = function(req, res){
                                 message: 'unknown_error'
                             });
                         }else{
-                            res.json({
-                                status: 'success',
-                                message: 'email_sent',
-                                data: USER
-                            });
-                            return;
+                            // res.json({
+                            //     status: 'success',
+                            //     message: 'email_sent',
+                            //     data: USER
+                            // });
+                            // return;
                             var html = `"<html>
                             <head>
                             <title></title>
@@ -543,28 +542,62 @@ exports.email_confirmation = function(req, res){
                             </table>
                             </body>
                             </html>`;
-                            var transporter = nodemailer.createTransport({sendmail: true}, {
-                                from: 'noreply@elimoo.com',
-                                to: instituition_email,
-                                subject: 'Elimoo Verification Code',
-                            });
-                            transporter.sendMail({
-                                html: html
-                            }, (err, info) => {
-                                if(err){
-                                    res.json({
-                                        status: 'error',
-                                        message: 'unknown_error',
-                                        data: err
-                                    });
-                                }else{
-                                    res.json({
-                                        status: 'success',
-                                        message: 'email_sent',
-                                        data: info
-                                    });
+                            const request = mailjet
+                            .post("send", {'version': 'v3.1'})
+                            .request({
+                            "Messages":[
+                                {
+                                "From": {
+                                    "Email": "mothuso@lithiumtech.co.za",
+                                    "Name": "Elimoo"
+                                },
+                                "To": [
+                                    {
+                                    "Email": req.body.email,
+                                    }
+                                ],
+                                "Subject": "Elimoo Verification Code",
+                                "HTMLPart": html,
                                 }
+                            ]
+                            })
+                            request
+                            .then((info) => {
+                                res.json({
+                                    status: 'success',
+                                    message: 'email_sent',
+                                    data: info
+                                });
+                            })
+                            .catch((err) => {
+                                console.log(err)
+                                res.json({
+                                    status: 'error',
+                                    message: 'unknown_error'
+                                });
                             });
+                            // var transporter = nodemailer.createTransport({sendmail: true}, {
+                            //     from: 'noreply@elimoo.com',
+                            //     to: instituition_email,
+                            //     subject: 'Elimoo Verification Code',
+                            // });
+                            // transporter.sendMail({
+                            //     html: html
+                            // }, (err, info) => {
+                            //     if(err){
+                            //         res.json({
+                            //             status: 'error',
+                            //             message: 'unknown_error',
+                            //             data: err
+                            //         });
+                            //     }else{
+                            //         res.json({
+                            //             status: 'success',
+                            //             message: 'email_sent',
+                            //             data: info
+                            //         });
+                            //     }
+                            // });
                         }
                     });
                 }
@@ -1352,7 +1385,7 @@ exports.forgot_password_email = function(req, res){
                                         <!-- HEADLINE -->
                                         <tr>
                                             <td bgcolor="#FF9E02" align="center" style="padding: 30px 30px 30px 30px; border-radius: 4px 4px 4px 4px; color: #fff; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;" >
-                                            <h2 style="font-size: 20px; font-weight: 400; color: #fff; margin: 0;">Need more help? Contact Us at support@elimoo.za</h2>
+                                            <h2 style="font-size: 20px; font-weight: 400; color: #fff; margin: 0;">Need more help? Contact Us at support@elimoo.co.za</h2>
                                             </td>
                                         </tr>
                                     </table>
@@ -1375,12 +1408,6 @@ exports.forgot_password_email = function(req, res){
                         </table>
                         </body>
                         </html>`;
-                        const msg = {
-                            to: req.body.email,
-                            from: 'noreply@elimoo.com',
-                            subject: 'Elimoo Password Reset',
-                            html: html,
-                          };
                           const request = mailjet
                             .post("send", {'version': 'v3.1'})
                             .request({
@@ -1415,6 +1442,12 @@ exports.forgot_password_email = function(req, res){
                                     message: 'unknown_error'
                                 });
                             });
+                            // const msg = {
+                            //     to: req.body.email,
+                            //     from: 'noreply@elimoo.com',
+                            //     subject: 'Elimoo Password Reset',
+                            //     html: html,
+                            //   };
                         // sgMail.send(msg, false, (err, info) => {
                         //     if(err){
                         //         console.log("NodemailerError:", err);
