@@ -553,7 +553,7 @@ exports.email_confirmation = function(req, res){
                                 },
                                 "To": [
                                     {
-                                    "Email": req.body.email,
+                                    "Email": instituition_email,
                                     }
                                 ],
                                 "Subject": "Elimoo Verification Code",
