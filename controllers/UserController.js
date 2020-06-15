@@ -3,6 +3,7 @@ const Deal = require('../models/Deal');
 const Notification = require('../models/Notifications');
 const EmailConfirmation = require('../models/EmailConfirmation');
 const PasswordReset = require('../models/PasswordReset');
+const sendmail = require('sendmail')();
 const nodemailer = require("nodemailer");
 const otpGenerator = require('otp-generator');
 const md5 = require('md5');
@@ -1370,14 +1371,12 @@ exports.forgot_password_email = function(req, res){
                         </table>
                         </body>
                         </html>";`;
-                        var transporter = nodemailer.createTransport({sendmail: true}, {
-                            from: 'noreply@elimoo.com',
+                        sendmail({
+                            from: 'noreply@elimoo.co.za',
                             to: req.body.email,
                             subject: 'Elimoo Password Reset',
-                        });
-                        transporter.sendMail({
-                            html: html
-                        }, (err, info) => {
+                            html: html,
+                          }, function(err, info) {
                             if(err){
                                 console.log("NodemailerError:", err);
                                 res.json({
@@ -1392,6 +1391,28 @@ exports.forgot_password_email = function(req, res){
                                 });
                             }
                         });
+                        // var transporter = nodemailer.createTransport({sendmail: true}, {
+                        //     from: 'noreply@elimoo.com',
+                        //     to: req.body.email,
+                        //     subject: 'Elimoo Password Reset',
+                        // });
+                        // transporter.sendMail({
+                        //     html: html
+                        // }, (err, info) => {
+                        //     if(err){
+                        //         console.log("NodemailerError:", err);
+                        //         res.json({
+                        //             status: 'error',
+                        //             message: 'unknown_error'
+                        //         });
+                        //     }else{
+                        //         res.json({
+                        //             status: 'success',
+                        //             message: 'email_sent',
+                        //             data: info
+                        //         });
+                        //     }
+                        // });
                     }
                 });
             }
