@@ -623,6 +623,7 @@ exports.verify_confirmation_email = function(req, res){
                     status: 'error',
                     message: 'pin_not_found'
                 });
+                return;
             }
             var currentDate = new Date();
             if(currentDate.getTime() > emailConfirmation.expiryDate.getTime()){
