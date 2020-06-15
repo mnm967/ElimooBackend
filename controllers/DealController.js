@@ -334,7 +334,7 @@ exports.checkDealAvailability = (req, res) => {
                     });
                 }else{
                     var deals_redeemed = user.deals_redeemed;
-                    if(deals_redeemed != null && deals_redeemed != undefined && deals_redeemed.length != 0){
+                    if(deals_redeemed != null && deals_redeemed != undefined && deals_redeemed.length != 0) deals_redeemed = [];
                         var deal_redeem_arr = deals_redeemed.filter((i) => {return i['deal_id'] == dealId});
                         if(deal_redeem_arr.length > 0){
                             var redeemDate = deal_redeem_arr[0]['date_redeemed'];
@@ -362,6 +362,7 @@ exports.checkDealAvailability = (req, res) => {
                                     });
                                 }else{
                                     Store.findById(deal.store_id, (err, store) => {
+                                        console.log("Store", err);
                                         var public_pin = md5(store.public_pin);
                                         var private_pin = md5(store.private_pin);
                                         var qr_code = md5(store.qr_code);
@@ -390,7 +391,10 @@ exports.checkDealAvailability = (req, res) => {
                                     data: DATA
                                 });
                             }else{
+                                console.log("Yes:");
                                 Store.findById(deal.store_id, (err, store) => {
+                                    
+                                     console.log("StoreErr:", err);
                                     var public_pin = md5(store.public_pin);
                                     var private_pin = md5(store.private_pin);
                                     var qr_code = md5(store.qr_code);
@@ -408,7 +412,6 @@ exports.checkDealAvailability = (req, res) => {
                                 });
                             }
                         }
-                    } 
                 }
             });   
         }
