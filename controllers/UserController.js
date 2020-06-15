@@ -5,6 +5,8 @@ const EmailConfirmation = require('../models/EmailConfirmation');
 const PasswordReset = require('../models/PasswordReset');
 const sendmail = require('sendmail')();
 const sgMail = require('@sendgrid/mail');
+const mailjet = require ('node-mailjet')
+.connect('27dcb3a02ae46194e940a2d08f187c49', '7cd72286c97792c71fe20c6b57fafcc6')
 sgMail.setApiKey('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');
 const nodemailer = require("nodemailer");
 const otpGenerator = require('otp-generator');
@@ -1379,21 +1381,59 @@ exports.forgot_password_email = function(req, res){
                             subject: 'Elimoo Password Reset',
                             html: html,
                           };
-                        sgMail.send(msg, false, (err, info) => {
-                            if(err){
-                                console.log("NodemailerError:", err);
-                                res.json({
-                                    status: 'error',
-                                    message: 'unknown_error'
-                                });
-                            }else{
+                          const request = mailjet
+                            .post("send", {'version': 'v3.1'})
+                            .request({
+                            "Messages":[
+                                {
+                                "From": {
+                                    "Email": "mothuso@lithiumtech.co.za",
+                                    "Name": "Mothuso"
+                                },
+                                "To": [
+                                    {
+                                    "Email": "mothuso@lithiumtech.co.za",
+                                    "Name": "Mothuso"
+                                    }
+                                ],
+                                "Subject": "Greetings from Mailjet.",
+                                "TextPart": "My first Mailjet email",
+                                "HTMLPart": "<h3>Dear passenger 1, welcome to <a href='https://www.mailjet.com/'>Mailjet</a>!</h3><br />May the delivery force be with you!",
+                                "CustomID": "AppGettingStartedTest"
+                                }
+                            ]
+                            })
+                            request
+                            .then((info) => {
                                 res.json({
                                     status: 'success',
                                     message: 'email_sent',
                                     data: info
                                 });
-                            }
-                        });
+                            })
+                            .catch((err) => {
+                                console.log(err)
+                                res.json({
+                                    status: 'error',
+                                    message: 'unknown_error'
+                                });
+                            });
+                        // sgMail.send(msg, false, (err, info) => {
+                        //     if(err){
+                        //         console.log("NodemailerError:", err);
+                        //         console.log("NodemailerError:", info);
+                        //         res.json({
+                        //             status: 'error',
+                        //             message: 'unknown_error'
+                        //         });
+                        //     }else{
+                        //         res.json({
+                        //             status: 'success',
+                        //             message: 'email_sent',
+                        //             data: info
+                        //         });
+                        //     }
+                        // });
                         // sendmail({
                         //     from: 'noreply@'+req.get('host'),
                         //     to: req.body.email,
