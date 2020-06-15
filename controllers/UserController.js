@@ -619,6 +619,7 @@ exports.verify_confirmation_email = function(req, res){
             });
         }else{
             if(!emailConfirmation){
+                console.log("Not Found:", user_id);
                 res.json({
                     status: 'error',
                     message: 'pin_not_found'
