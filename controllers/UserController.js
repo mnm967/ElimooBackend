@@ -1388,18 +1388,15 @@ exports.forgot_password_email = function(req, res){
                                 {
                                 "From": {
                                     "Email": "mothuso@lithiumtech.co.za",
-                                    "Name": "Mothuso"
+                                    "Name": "Elimoo"
                                 },
                                 "To": [
                                     {
-                                    "Email": "mothuso@lithiumtech.co.za",
-                                    "Name": "Mothuso"
+                                    "Email": req.body.email,
                                     }
                                 ],
-                                "Subject": "Greetings from Mailjet.",
-                                "TextPart": "My first Mailjet email",
-                                "HTMLPart": "<h3>Dear passenger 1, welcome to <a href='https://www.mailjet.com/'>Mailjet</a>!</h3><br />May the delivery force be with you!",
-                                "CustomID": "AppGettingStartedTest"
+                                "Subject": "Elimoo Password Reset",
+                                "HTMLPart": html,
                                 }
                             ]
                             })
