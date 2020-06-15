@@ -179,7 +179,7 @@ exports.upload_profile_image = async (req, res) => {
             let profile_image = req.files.profile_image;
             profile_image.mv('./uploads/profile_images/' + profile_image.name);
 
-            var image_location = "http://localhost:9999/uploads/profile_images/"+profile_image.name;
+            var image_location = "https://"+req.get('host')+"/uploads/profile_images/"+profile_image.name;
 
             User.findById(req.params.user_id, function(err, user){
                 if(err) {
@@ -250,7 +250,7 @@ exports.upload_proof_image = async (req, res) => {
             let proof_image = req.files.proof_image;
             proof_image.mv('./uploads/student_proof_images/' + proof_image.name);
 
-            var image_location = "http://localhost:9999/uploads/student_proof_images/"+proof_image.name;
+            var image_location = "http://"+req.get('host')+"/uploads/student_proof_images/"+proof_image.name;
 
             User.findById(req.params.user_id, function(err, user){
                 if(err) {
