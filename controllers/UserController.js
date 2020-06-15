@@ -1152,7 +1152,7 @@ exports.change_user_password = (req, res) => {
 
 exports.forgot_password_email = function(req, res){
     //Delete if an entry exists for user
-    PasswordReset.deleteMany({user_id: req.body.email}, function(err){
+    PasswordReset.deleteMany({user_email: req.body.email}, function(err){
     });
     User.findOne({email: req.body.email}, function(err, user){
         if(err) {
@@ -1379,6 +1379,7 @@ exports.forgot_password_email = function(req, res){
                             html: html
                         }, (err, info) => {
                             if(err){
+                                console.log("NodemailerError:", err);
                                 res.json({
                                     status: 'error',
                                     message: 'unknown_error'
