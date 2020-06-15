@@ -312,10 +312,12 @@ exports.unlikeDeal = (req, res) => {
     });
 }
 exports.checkDealAvailability = (req, res) => {
+    console.log("Received")
     var userId = req.params.userid;
     var dealId = req.params.dealid;
 
     User.findById(userId, 'deals_redeemed', function(err, user){
+        console.log(err);
         if(err) {
             res.json({
                 status: "error",
@@ -323,6 +325,7 @@ exports.checkDealAvailability = (req, res) => {
             });
         }else{
             Deal.findById(dealId, (err, deal) => {
+                console.log(err);
                 if(err){
                     console.log(err);
                     res.json({
