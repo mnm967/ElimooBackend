@@ -333,7 +333,7 @@ exports.checkDealAvailability = (req, res) => {
                     });
                 }else{
                     var deals_redeemed = user.deals_redeemed;
-                    if(deals_redeemed != null && deals_redeemed != undefined && deals_redeemed.length != 0) deals_redeemed = [];
+                    if(deals_redeemed == null || deals_redeemed == undefined) deals_redeemed = [];
                         var deal_redeem_arr = deals_redeemed.filter((i) => {return i['deal_id'] == dealId});
                         if(deal_redeem_arr.length > 0){
                             var redeemDate = deal_redeem_arr[0]['date_redeemed'];
@@ -433,7 +433,7 @@ exports.redeemDeal = (req, res) => {
                     });
                 }else{
                     var deals_redeemed = user.deals_redeemed;
-                    if(deals_redeemed != null && deals_redeemed != undefined && deals_redeemed.length != 0) deals_redeemed = [];
+                    if(deals_redeemed == null || deals_redeemed == undefined) deals_redeemed = [];
                         var deal_redeem_arr = deals_redeemed.filter((i) => {return i['deal_id'] == dealId});
                         if(deal_redeem_arr.length > 0){
                             var redeemDate = deal_redeem_arr[0]['date_redeemed'];
