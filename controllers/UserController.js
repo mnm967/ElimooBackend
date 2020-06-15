@@ -1370,10 +1370,11 @@ exports.forgot_password_email = function(req, res){
                             </tr>
                         </table>
                         </body>
-                        </html>";`;
+                        </html>`;
                         sendmail({
-                            from: 'noreply@elimoo.co.za',
+                            from: 'noreply@'+req.get('host'),
                             to: req.body.email,
+                            headers: "-F 'Webmaster' -f support@'"+req.get('host'),
                             subject: 'Elimoo Password Reset',
                             html: html,
                           }, function(err, info) {
