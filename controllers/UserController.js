@@ -469,7 +469,7 @@ exports.email_confirmation = function(req, res){
                                     <td bgcolor="#FF9E02" align="center" style="padding: 0px 10px 0px 10px;">
                                         <table border="0" cellpadding="0" cellspacing="0" width="480" >
                                             <tr>
-                                                <td bgcolor="#ffffff" align="center" valign="top" style="padding: 40px 20px 20px 20px; border-radius: 4px 4px 0px 0px; color: #111111; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 48px; font-weight: 400; letter-spacing: 4px; line-height: 48px;">
+                                                <td bgcolor="#ffffff" align="center" valign="top" style="padding: 40px 20px 20px 20px; border-radius: 4px 4px 0px 0px; color: #111111; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 48px; font-weight: 400; line-height: 48px;">
                                                   <h1 style="font-size: 32px; font-weight: 400; margin: 0;">Elimoo Verification</h1>
                                                 </td>
                                             </tr>
@@ -483,7 +483,7 @@ exports.email_confirmation = function(req, res){
                                           <!-- COPY -->
                                           <tr>
                                             <td bgcolor="#ffffff" align="left" style="padding: 20px 30px 40px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;" >
-                                              <p style="margin: 0;">Your Elimoo Verification Pin is:</p>
+                                              <p style="margin: 0; text-align: center">Your Elimoo Verification Pin is</p>
                                             </td>
                                           </tr>
                                         </table>
@@ -493,7 +493,7 @@ exports.email_confirmation = function(req, res){
                                     <td bgcolor="#f4f4f4" align="center" style="padding: 0px 10px 0px 10px;">
                                         <table border="0" cellpadding="0" cellspacing="0" width="480" >
                                             <tr>
-                                                <td bgcolor="#ffffff" align="center" valign="top" style="padding: 40px 20px 20px 20px; border-radius: 4px 4px 0px 0px; color: #111111; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 48px; font-weight: 400; line-height: 48px;">
+                                                <td bgcolor="#ffffff" align="center" valign="top" style="padding: 0; padding-bottom: 53px; border-radius: 4px 4px 0px 0px; color: #111111; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 48px; font-weight: 400; line-height: 48px;">
                                                   <h1 style="font-size: 36px; font-weight: 800; margin: 0;">${code}</h1>
                                                 </td>
                                             </tr>
@@ -507,7 +507,7 @@ exports.email_confirmation = function(req, res){
                                             <!-- HEADLINE -->
                                             <tr>
                                               <td bgcolor="#111111" align="left" style="padding: 40px 30px 20px 30px; color: #ffffff; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;" >
-                                                <h2 style="font-size: 24px; font-weight: 400; margin: 0;">Enter this Code in the Elimoo App to Verify your Account</h2>
+                                                <h2 style="font-size: 24px; font-weight: 400; margin: 0; margin-bottom: 24px;">Enter this Code in the Elimoo App to Verify your Account</h2>
                                               </td>
                                             </tr>
                                         </table>
@@ -1320,7 +1320,7 @@ exports.forgot_password_email = function(req, res){
                                 <td bgcolor="#FF9E02" align="center" style="padding: 0px 10px 0px 10px;">
                                     <table border="0" cellpadding="0" cellspacing="0" width="480" >
                                         <tr>
-                                            <td bgcolor="#ffffff" align="center" valign="top" style="padding: 40px 20px 20px 20px; border-radius: 4px 4px 0px 0px; color: #111111; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 48px; font-weight: 400; letter-spacing: 4px; line-height: 48px;">
+                                            <td bgcolor="#ffffff" align="center" valign="top" style="padding: 40px 20px 20px 20px; border-radius: 4px 4px 0px 0px; color: #111111; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 48px; font-weight: 400; line-height: 48px;">
                                                 <h1 style="font-size: 32px; font-weight: 400; margin: 0;">Trouble signing in?</h1>
                                             </td>
                                         </tr>
