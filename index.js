@@ -46,7 +46,7 @@ app.get('/', (req, res) => {
     test['fname'] = 'Carol Susan Jane Danvers';
 
     res.json({
-        test_data: test
+        status: "API is Running Successfully"
     });
 });
 
