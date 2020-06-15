@@ -1185,11 +1185,11 @@ exports.forgot_password_email = function(req, res){
                             message: 'unknown_error'
                         });
                     }else{
-                        res.json({
-                            status: 'success',
-                            message: 'email_sent'
-                        });
-                        return;
+                        // res.json({
+                        //     status: 'success',
+                        //     message: 'email_sent'
+                        // });
+                        // return;
                         var html = `"<html>
                         <head>
                         <title></title>
