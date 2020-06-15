@@ -46,7 +46,8 @@ app.get('/', (req, res) => {
     test['fname'] = 'Carol Susan Jane Danvers';
 
     res.json({
-        status: "API is Running Successfully"
+        status: "API is Running Successfully",
+        site: req.protocol + '://' + req.get('host')
     });
 });
 
