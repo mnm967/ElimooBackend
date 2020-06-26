@@ -323,6 +323,13 @@ exports.checkDealAvailability = (req, res) => {
                 message: 'unknown_error'
             });
         }else{
+            if(user.is_approved != true){
+                res.json({
+                    status: "success",
+                    message: 'account_not_approved'
+                });
+                return;
+            }
             Deal.findById(dealId, (err, deal) => {
                 console.log(err);
                 if(err){
@@ -424,13 +431,6 @@ exports.redeemDeal = (req, res) => {
                 message: 'unknown_error'
             });
         }else{
-            if(user.is_approved != true){
-                res.json({
-                    status: "success",
-                    message: 'account_not_approved'
-                });
-                return;
-            }
             Deal.findById(dealId, (err, deal) => {
                 if(err){
                     console.log(err);
