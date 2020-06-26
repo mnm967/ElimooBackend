@@ -315,7 +315,7 @@ exports.checkDealAvailability = (req, res) => {
     var userId = req.params.userid;
     var dealId = req.params.dealid;
 
-    User.findById(userId, 'deals_redeemed', function(err, user){
+    User.findById(userId, 'deals_redeemed is_approved', function(err, user){
         console.log(err);
         if(err) {
             res.json({
@@ -323,7 +323,7 @@ exports.checkDealAvailability = (req, res) => {
                 message: 'unknown_error'
             });
         }else{
-            if(user.is_approved == false){
+            if(user.is_approved != true){
                 res.json({
                     status: "success",
                     test: user,
