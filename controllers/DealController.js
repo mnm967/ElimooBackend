@@ -323,9 +323,10 @@ exports.checkDealAvailability = (req, res) => {
                 message: 'unknown_error'
             });
         }else{
-            if(user.is_approved != true){
+            if(user.is_approved == false){
                 res.json({
                     status: "success",
+                    test: user,
                     message: 'account_not_approved'
                 });
                 return;
