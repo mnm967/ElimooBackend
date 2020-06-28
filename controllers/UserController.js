@@ -385,6 +385,8 @@ exports.email_confirmation = function(req, res){
                             //     data: USER
                             // });
                             // return;
+                            var logofile = "https://"+req.get('host')+"/uploads/img/elimoo_icon1024.png";
+
                             var html = `"<html>
                             <head>
                             <title></title>
@@ -457,7 +459,7 @@ exports.email_confirmation = function(req, res){
                                             <tr>
                                                 <td align="center" valign="top" style="padding: 40px 10px 40px 10px;">
                                                     <a href="http://www.elimoo.co.za/" target="_blank">
-                                                        <img alt="Logo" src="https://www.elimoo.co.za/uploads/img/icon.png" width="100" height="100" style="display: block;  font-family: 'Lato', Helvetica, Arial, sans-serif; color: #ffffff; font-size: 18px;" border="0">
+                                                        <img alt="Logo" src="${logofile}" width="100" height="100" style="display: block;  font-family: 'Lato', Helvetica, Arial, sans-serif; color: #ffffff; font-size: 18px;" border="0">
                                                     </a>
                                                 </td>
                                             </tr>
@@ -1231,6 +1233,8 @@ exports.forgot_password_email = function(req, res){
                         //     message: 'email_sent'
                         // });
                         // return;
+                        var logofile = "https://"+req.get('host')+"/uploads/img/elimoo_icon1024.png";
+
                         var html = `"<html>
                         <head>
                         <title></title>
@@ -1308,7 +1312,7 @@ exports.forgot_password_email = function(req, res){
                                         <tr>
                                             <td align="center" valign="top" style="padding: 40px 10px 40px 10px;">
                                                 <a href="http://www.elimoo.co.za/" target="_blank">
-                                                    <img alt="Logo" src="https://www.elimoo.co.za/uploads/img/icon.png" width="100" height="100" style="display: block;  font-family: 'Lato', Helvetica, Arial, sans-serif; color: #ffffff; font-size: 18px;" border="0">
+                                                    <img alt="Logo" src="${logofile}" width="100" height="100" style="display: block;  font-family: 'Lato', Helvetica, Arial, sans-serif; color: #ffffff; font-size: 18px;" border="0">
                                                 </a>
                                             </td>
                                         </tr>
