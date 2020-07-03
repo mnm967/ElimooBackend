@@ -1111,6 +1111,7 @@ exports.getUserNotifications = (req, res) => {
                     DEAL_ITEM['image_url'] = deal.image_url;
                     DEAL_ITEM['store_logo_url'] = deal.store_logo_url;
                     DEAL_ITEM['store_id'] = deal.store_id;
+                    DEAL_ITEM['store_name'] = deal.store_name;
                     DEAL_ITEM['date_created'] = deal.date_created;
                     //DEAL_ITEM['is_user_favourite'] = true;
 
