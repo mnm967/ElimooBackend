@@ -23,6 +23,9 @@ router.route('/user/:user_id')
 router.route('/user/profile_image/:user_id')
     .post(UserController.upload_profile_image);
 
+router.route('/user/user_proof_image/:user_id')
+    .post(UserController.upload_id_image);
+
 router.route('/user/student_proof_image/:user_id')
     .post(UserController.upload_proof_image);
 
@@ -52,6 +55,9 @@ router.route('/user/forgotpassword')
 
 router.route('/user/verify/confirmation_email')
     .post(UserController.verify_confirmation_email);
+
+router.route('/user/verify/resend_email/:user_id')
+    .get(UserController.sendNewEmailConfirmation);
 
 router.route('/user/pendingstatus/:userid')
     .get(UserController.pendingcheck);
