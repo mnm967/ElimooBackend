@@ -40,6 +40,8 @@ app.use('/uploads', express.static('uploads'));
 
 app.use('/api', apiRoutes);
 
+//TODO Admin Route
+
 app.get('/', (req, res) => {
     var test = {};
     test['uname'] = 'CaptainMarvelSJW';

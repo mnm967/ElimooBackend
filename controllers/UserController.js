@@ -748,6 +748,12 @@ exports.upload_profile_image = async (req, res) => {
                         data: err
                     });
                 }else{
+                    if(user.profile_image_url != undefined && user.profile_image_url != ""){
+                        fs.unlink(user.profile_image_url.replace("https://"+req.get('host'), "."), (e) => {
+                            console.log(e);
+                        });
+                    }
+
                     user.profile_image_url = image_location;
                     user.save(function(err){
                         if(err) {
