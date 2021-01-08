@@ -1715,6 +1715,183 @@ exports.getUserNotifications = (req, res) => {
         });
     });
 };
+
+exports.get_pending_users = function(req, res){
+    var finalPendingList = []
+    
+    User.find({'is_approved': false, 'is_denied': false, 'is_instituition_email_confirmed': true}, (err, list) => {
+        if(err){
+            res.json({
+                status: "error",
+                message: 'unknown_error'
+            });
+        }else{
+            if(list.length == 0){
+                res.json({
+                    status: 'success',
+                    data: []
+                });
+                return
+            }
+
+            list.forEach((user) => {
+                var USER = {};
+                USER['id'] = user._id;
+                USER['first_name'] = user.first_name;
+                USER['last_name'] = user.last_name;
+                USER['email'] = user.email;
+                USER['is_approved'] = user.is_approved;
+                USER['is_denied'] = user.is_denied;
+                USER['profile_image_url'] = user.profile_image_url;
+                USER['id_image_url'] = user.student_proof_image_url;
+
+                finalPendingList.push(USER)
+            })
+
+            res.json({
+                status: 'success',
+                data: finalPendingList
+            });
+        }
+    })
+}
+
+exports.approve_user = function(req, res){
+    var userId = req.body.user_id;
+    User.findById(userId, (err, user) => {
+        if(err){
+            res.json({
+                status: "error",
+                message: 'unknown_error'
+            });
+        }else{
+            if(!user){
+                res.json({
+                    status: "error",
+                    message: 'user_not_found'
+                });
+                return
+            }
+            user.is_approved = true
+            user.save((err) => {
+                if(err){
+                    res.json({
+                        status: "error",
+                        message: 'unknown_error'
+                    });
+                }else{
+                    res.json({
+                        status: "success",
+                        message: 'user_approved'
+                    });
+                    //TODO Send Push Notification
+                }
+            })
+        }
+    })
+}
+
+exports.deny_user = function(req, res){
+    var userId = req.body.user_id;
+    User.findById(userId, (err, user) => {
+        if(err){
+            res.json({
+                status: "error",
+                message: 'unknown_error'
+            });
+        }else{
+            if(!user){
+                res.json({
+                    status: "error",
+                    message: 'user_not_found'
+                });
+                return
+            }
+            user.is_denied = true
+            user.save((err) => {
+                if(err){
+                    res.json({
+                        status: "error",
+                        message: 'unknown_error'
+                    });
+                }else{
+                    res.json({
+                        status: "success",
+                        message: 'user_denied'
+                    });
+                    //TODO Send Push Notification
+                }
+            })
+        }
+    })
+}
+
+exports.reset_user_password = (req, res) => {
+    var token = req.params.token;
+    var newPassword = req.body.password;
+    var matchPassword = req.body.passwordMatch;
+    const path = require( 'path' ).join( __dirname, '..', 'views/includes/resetpassword.ejs' )
+
+    if(newPassword.length < 5){
+        res.render(path, {
+            reset_result: 'length_error'
+        });
+        return
+    }
+    if(newPassword != matchPassword){
+        res.render(path, {
+            reset_result: 'match_error'
+        });
+        return
+    }
+
+    PasswordReset.findOne({'token': token}, (err, item) => {
+        if(err) {
+            res.render(path, {
+                reset_result: 'error'
+            });
+        }else{
+            if(!item){
+                res.render(path, {
+                    reset_result: 'token_invalid'
+                });
+            }else{
+                var now = new Date()
+                if(item.expiryDate < now){
+                    res.render(path, {
+                        reset_result: 'token_expired'
+                    });
+                    return;
+                }
+                var userId = item.userId
+
+                User.findById(userId, 'password', function(err, user){
+                    if(err) {
+                        res.render(path, {
+                            reset_result: 'error'
+                        });
+                    }else{
+                        user.password = newPassword;
+            
+                        user.save(function(err){
+                            if(err) {
+                                res.render(path, {
+                                    reset_result: 'error'
+                                });
+                            }else{
+                                res.render(path, {
+                                    reset_result: 'success'
+                                });
+                                PasswordReset.deleteOne({'token' : token})
+                            }
+                        });
+                    }
+                });
+            }
+        }
+    })
+};
+
 exports.change_user_password = (req, res) => {
     var userId = req.body.userId;
     var currentPassword = req.body.currentPassword;
@@ -1772,6 +1949,7 @@ exports.forgot_password_email = function(req, res){
                 });
             }else{
                 var code = otpGenerator.generate(32, {digits: true, alphabets: true, upperCase: true, specialChars: false});
+                code = code + user._id
 
                 var expiryDate = new Date();
                 expiryDate.setHours(expiryDate.getHours() + 6);

@@ -10,6 +10,10 @@ var userSchema = mongoose.Schema({
         type: Boolean,
         default: false
     },
+    is_denied: {
+        type: Boolean,
+        default: false
+    },
     is_instituition_email_confirmed: {
         type: Boolean,
         default: false

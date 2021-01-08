@@ -1,0 +1,78 @@
+.main-navbar{
+    min-height: 64px; 
+    background-color: #FFF;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 0px 8px 0 rgba(0, 0, 0, 0.19);
+}
+.active-item{
+    background-color: #FFF !important;
+    border-radius: 8px;
+    color: #FF9E02 !important;
+}
+.active-nav-link{
+    color: #FF9E02 !important;
+}
+div.card {
+    width: "100%";
+    height: "100%";
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 0px 8px 0 rgba(0, 0, 0, 0.19);
+    text-align: center;
+    padding-top: 24px;
+    padding-bottom: 24px;
+    padding-left: 16px;
+    padding-right: 16px;
+}
+.main-container{
+    margin-top: 56px;
+    margin-bottom: 56px;
+}
+.nav-item-link{
+    text-align: center;
+    color: #000000;
+    display: block;
+    padding: .5rem 1rem;
+}
+.nav-item-link:hover{
+    text-decoration: none;
+    color: #000000;
+}
+.approve-button{
+    height: 48px;
+    font-weight: bold;
+    background-color: #00e676 !important;
+    border-color: #00e676 !important;
+}
+.deny-button{
+    height: 48px;
+    font-weight: bold;
+    background-color: #ff1744 !important;
+    border-color: #ff1744 !important;
+}
+.id-button{
+    height: 48px;
+    font-weight: bold;
+}
+.logout-button{
+    background-color: #FF9E02;
+    border-color: #FF9E02;
+    color: #fff;
+    border-top-left-radius: 8px !important;
+    border-bottom-left-radius: 8px !important;
+    border-top-right-radius: 8px !important;
+    border-bottom-right-radius: 8px !important;
+}
+.user-image{
+    object-fit: cover; 
+    border-radius: 50%;
+}
+.user-name{
+    font-weight: bold; 
+    margin-top: 24px;
+}
+.user-name-exists-text{
+    margin-top: 8px; 
+    margin-bottom: 24px; 
+    font-weight: bold; 
+    color: #ff1744; 
+}
+.grow { transition: all .2s ease-in-out !important; }
+.grow:hover { transform: scale(1.1); }

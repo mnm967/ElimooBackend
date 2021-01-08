@@ -2,6 +2,8 @@
 
 const express = require('express');
 const apiRoutes = require("./api-routes");
+const adminRoutes = require("./admin-routes");
+const userRoutes = require("./user-routes");
 
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -39,8 +41,8 @@ app.use(bodyParser.json());
 app.use('/uploads', express.static('uploads'));
 
 app.use('/api', apiRoutes);
-
-//TODO Admin Route
+app.use('/user', userRoutes);
+app.use('/admin', adminRoutes);
 
 app.get('/', (req, res) => {
     var test = {};
