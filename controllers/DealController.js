@@ -6,6 +6,37 @@ const md5 = require('md5');
 const mongoose = require('mongoose')
 const otpGenerator = require('otp-generator');
 
+function returnUnknownError(res){
+    res.json({
+        status: "error",
+        message: 'unknown_error'
+    });
+}
+
+function getDealItem(deal){
+    var DEAL_ITEM = {};
+    DEAL_ITEM['id'] = deal._id;
+    DEAL_ITEM['name'] = deal.name;
+    DEAL_ITEM['description'] = deal.description;
+    DEAL_ITEM['deal_type'] = deal.deal_type;
+    DEAL_ITEM['category'] = deal.category;
+    DEAL_ITEM['available_online'] = deal.available_online;
+    DEAL_ITEM['is_main'] = deal.is_main;
+    DEAL_ITEM['is_trending'] = deal.is_trending;
+    DEAL_ITEM['is_special'] = deal.is_special;
+    DEAL_ITEM['is_week_pick'] = deal.is_week_pick;
+    DEAL_ITEM['is_visible'] = deal.is_visible;
+    DEAL_ITEM['percentage'] = deal.percentage;
+    DEAL_ITEM['image_url'] = deal.image_url;
+    DEAL_ITEM['store_logo_url'] = deal.store_logo_url;
+    DEAL_ITEM['store_id'] = deal.store_id;
+    DEAL_ITEM['store_name'] = deal.store_name;
+    DEAL_ITEM['date_created'] = deal.date_created;
+    DEAL_ITEM['is_user_favourite'] = true;
+
+    return DEAL_ITEM;
+}
+
 exports.createDeal = (req, res) => {
     var name = req.body.name;
     var description = req.body.description;
@@ -41,10 +72,7 @@ exports.createDeal = (req, res) => {
     deal.save((err) => {
         if(err){
             console.log(err);
-            res.json({
-                status: "error",
-                message: 'unknown_error'
-            });
+            returnUnknownError(res);
         }else{
             res.json({
                 status: 'success',
@@ -53,6 +81,7 @@ exports.createDeal = (req, res) => {
         }
     });
 }
+
 exports.createTopTip = (req, res) => {
     var name = req.body.name;
     var image_url = req.body.image_url;
@@ -68,10 +97,7 @@ exports.createTopTip = (req, res) => {
     tip.save((err) => {
         if(err){
             console.log(err);
-            res.json({
-                status: "error",
-                message: 'unknown_error'
-            });
+            returnUnknownError(res);
         }else{
             res.json({
                 status: 'success',
@@ -80,16 +106,14 @@ exports.createTopTip = (req, res) => {
         }
     });
 }
+
 exports.getHomeDeals = (req, res) => {
     var finalDealList = [];
 
     TopTip.find({}).sort('-date_created').limit(30).exec((err, topTipList) => {
         if(err){
             console.log(err);
-            res.json({
-                status: "error",
-                message: 'unknown_error'
-            });
+            returnUnknownError(res);
             return;
         }
         var finalTopTipList = [];
@@ -108,36 +132,13 @@ exports.getHomeDeals = (req, res) => {
         Deal.find({$or: [{'is_main': true}, {'is_trending': true}, {'is_special': true}, {'is_week_pick': true}]}, (err, data) => {
             if(err){
                 console.log(err);
-                res.json({
-                    status: "error",
-                    message: 'unknown_error'
-                });
+                returnUnknownError(res);
             }else{
                 for(i = 0; i < data.length; ++i){
                     var deal = data[i];
                     if(deal.is_visible == false) continue;
     
-                    var DEAL_ITEM = {};
-                    DEAL_ITEM['id'] = deal._id;
-                    DEAL_ITEM['name'] = deal.name;
-                    DEAL_ITEM['description'] = deal.description;
-                    DEAL_ITEM['deal_type'] = deal.deal_type;
-                    DEAL_ITEM['category'] = deal.category;
-                    DEAL_ITEM['available_online'] = deal.available_online;
-                    DEAL_ITEM['is_main'] = deal.is_main;
-                    DEAL_ITEM['is_trending'] = deal.is_trending;
-                    DEAL_ITEM['is_special'] = deal.is_special;
-                    DEAL_ITEM['is_week_pick'] = deal.is_week_pick;
-                    DEAL_ITEM['is_visible'] = deal.is_visible;
-                    DEAL_ITEM['percentage'] = deal.percentage;
-                    DEAL_ITEM['image_url'] = deal.image_url;
-                    DEAL_ITEM['store_logo_url'] = deal.store_logo_url;
-                    DEAL_ITEM['store_id'] = deal.store_id;
-                    DEAL_ITEM['store_name'] = deal.store_name;
-                    DEAL_ITEM['date_created'] = deal.date_created;
-                    DEAL_ITEM['is_user_favourite'] = true;
-    
-                    finalDealList.push(DEAL_ITEM);
+                    finalDealList.push(getDealItem(deal));
                 }
                 res.json({
                     status: 'success',
@@ -158,6 +159,7 @@ exports.getUserFavouriteDeals = (req, res) => {
         });
         return;
     }
+
     User.findById(userId, 'favourite_deals', (err, result) => {
         if(result.favourite_deals == null || result.favourite_deals == undefined || result.favourite_deals.length == 0){
             res.json({
@@ -176,36 +178,13 @@ exports.getUserFavouriteDeals = (req, res) => {
         Deal.find({$or: orList}, (err, data) => {
             if(err){
                 console.log(err);
-                res.json({
-                    status: "error",
-                    message: 'unknown_error'
-                });
+                returnUnknownError(res);
             }else{
                 for(i = 0; i < data.length; ++i){
                     var deal = data[i];
                     if(deal.is_visible == false) continue;
 
-                    var DEAL_ITEM = {};
-                    DEAL_ITEM['id'] = deal._id;
-                    DEAL_ITEM['name'] = deal.name;
-                    DEAL_ITEM['description'] = deal.description;
-                    DEAL_ITEM['deal_type'] = deal.deal_type;
-                    DEAL_ITEM['category'] = deal.category;
-                    DEAL_ITEM['available_online'] = deal.available_online;
-                    DEAL_ITEM['is_main'] = deal.is_main;
-                    DEAL_ITEM['is_trending'] = deal.is_trending;
-                    DEAL_ITEM['is_special'] = deal.is_special;
-                    DEAL_ITEM['is_week_pick'] = deal.is_week_pick;
-                    DEAL_ITEM['is_visible'] = deal.is_visible;
-                    DEAL_ITEM['percentage'] = deal.percentage;
-                    DEAL_ITEM['image_url'] = deal.image_url;
-                    DEAL_ITEM['store_logo_url'] = deal.store_logo_url;
-                    DEAL_ITEM['store_id'] = deal.store_id;
-                    DEAL_ITEM['store_name'] = deal.store_name;
-                    DEAL_ITEM['date_created'] = deal.date_created;
-                    DEAL_ITEM['is_user_favourite'] = true;
-
-                    finalDealList.push(DEAL_ITEM);
+                    finalDealList.push(getDealItem(deal));
                 }
                 finalDealList.sort(function(a, b) {
                     a = result.favourite_deals.filter((i) => {return i['deal_id'] == a['id']})[0]['date_favourited'];
@@ -220,29 +199,22 @@ exports.getUserFavouriteDeals = (req, res) => {
         });
     });
 }
+
 exports.deal_redeem_test = (req, res) => {
     var userId = req.params.userid;
     var dealId = req.params.dealid;
 
     User.findById(userId, 'deals_redeemed', function(err, user){
-        if(err) {
-            res.json({
-                status: "error",
-                message: 'unknown_error'
-            });
-        }else{
+        if(err)  returnUnknownError(res);
+        else{
             var newDealArr = user.deals_redeemed;
             if(newDealArr == null || newDealArr == undefined) newDealArr = [];
             newDealArr.push({'deal_id': dealId});
             user.deals_redeemed = newDealArr;
 
             user.save(function(err){
-                if(err) {
-                    res.json({
-                        status: "error",
-                        message: 'unknown_error'
-                    });
-                }else{
+                if(err) returnUnknownError(res);
+                else{
                     res.json({
                         status: "success"
                     });
@@ -251,29 +223,22 @@ exports.deal_redeem_test = (req, res) => {
         }
     });
 }
+
 exports.likeDeal = (req, res) => {
     var userId = req.params.userid;
     var dealId = req.params.dealid;
 
     User.findById(userId, 'favourite_deals', function(err, user){
-        if(err) {
-            res.json({
-                status: "error",
-                message: 'unknown_error'
-            });
-        }else{
+        if(err) returnUnknownError(res);
+        else{
             var newDealArr = user.favourite_deals;
             if(newDealArr == null || newDealArr == undefined) newDealArr = [];
             newDealArr.push({'deal_id': dealId});
             user.favourite_deals = newDealArr;
 
             user.save(function(err){
-                if(err) {
-                    res.json({
-                        status: "error",
-                        message: 'unknown_error'
-                    });
-                }else{
+                if(err) returnUnknownError(res);
+                else{
                     res.json({
                         status: "success"
                     });
@@ -282,29 +247,22 @@ exports.likeDeal = (req, res) => {
         }
     });
 }
+
 exports.unlikeDeal = (req, res) => {
     var userId = req.params.userid;
     var dealId = req.params.dealid;
 
     User.findById(userId, 'favourite_deals', function(err, user){
-        if(err) {
-            res.json({
-                status: "error",
-                message: 'unknown_error'
-            });
-        }else{
+        if(err) returnUnknownError(res);
+        else{
             var newDealArr = user.favourite_deals;
             if(newDealArr == null || newDealArr == undefined) newDealArr = [];
             newDealArr = newDealArr.filter((i) => {return i['deal_id'] != dealId});
             user.favourite_deals = newDealArr;
 
             user.save(function(err){
-                if(err) {
-                    res.json({
-                        status: "error",
-                        message: 'unknown_error'
-                    });
-                }else{
+                if(err) returnUnknownError(res);
+                else{
                     res.json({
                         status: "success"
                     });
@@ -313,18 +271,15 @@ exports.unlikeDeal = (req, res) => {
         }
     });
 }
+
 exports.checkDealAvailability = (req, res) => {
     var userId = req.params.userid;
     var dealId = req.params.dealid;
 
     User.findById(userId, 'deals_redeemed is_approved', function(err, user){
         console.log(err);
-        if(err) {
-            res.json({
-                status: "error",
-                message: 'unknown_error'
-            });
-        }else{
+        if(err) returnUnknownError(res);
+        else{
             if(user.is_approved != true){
                 res.json({
                     status: "success",
@@ -337,10 +292,7 @@ exports.checkDealAvailability = (req, res) => {
                 console.log(err);
                 if(err){
                     console.log(err);
-                    res.json({
-                        status: "error",
-                        message: 'unknown_error'
-                    });
+                    returnUnknownError(res);
                 }else{
                     var deals_redeemed = user.deals_redeemed;
                     if(deals_redeemed == null || deals_redeemed == undefined) deals_redeemed = [];
@@ -423,24 +375,18 @@ exports.checkDealAvailability = (req, res) => {
         }
     });
 }
+
 exports.redeemDeal = (req, res) => {
     var userId = req.params.userid;
     var dealId = req.params.dealid;
 
     User.findById(userId, 'deals_redeemed', function(err, user){
-        if(err) {
-            res.json({
-                status: "error",
-                message: 'unknown_error'
-            });
-        }else{
+        if(err) returnUnknownError(res);
+        else{
             Deal.findById(dealId, (err, deal) => {
                 if(err){
                     console.log(err);
-                    res.json({
-                        status: "error",
-                        message: 'unknown_error'
-                    });
+                    returnUnknownError(res);
                 }else{
                     var deals_redeemed = user.deals_redeemed;
                     if(deals_redeemed == null || deals_redeemed == undefined) deals_redeemed = [];
@@ -477,12 +423,8 @@ exports.redeemDeal = (req, res) => {
                                     user.deals_redeemed = newDealArr;
 
                                     user.save(function(err){
-                                        if(err) {
-                                            res.json({
-                                                status: "error",
-                                                message: 'unknown_error'
-                                            });
-                                        }else{
+                                        if(err) returnUnknownError(res);
+                                        else{
                                             var DATA = {};
                                             DATA['millisecondsTillNextUsage'] = (deal.usage_interval_hours*60*60*1000);
 
@@ -514,12 +456,8 @@ exports.redeemDeal = (req, res) => {
                                 user.deals_redeemed = newDealArr;
 
                                 user.save(function(err){
-                                    if(err) {
-                                        res.json({
-                                            status: "error",
-                                            message: 'unknown_error'
-                                        });
-                                    }else{
+                                    if(err) returnUnknownError(res);
+                                    else{
                                         var DATA = {};
                                         DATA['millisecondsTillNextUsage'] = (deal.usage_interval_hours*60*60*1000);
 
@@ -551,45 +489,21 @@ exports.getCategoryDeals = (req, res) => {
     // category: category
     Deal.countDocuments(s, (err, total) => {
         if(err){
-            res.json({
-                status: "error",
-                message: 'unknown_error'
-            });
+            returnUnknownError(res);
             return;
         }
+
         Deal.find(s).sort('-date_created').skip(dealsPerPage*page).limit(dealsPerPage).lean().exec((err, data) => {
             if(err){
-                res.json({
-                    status: "error",
-                    message: 'unknown_error'
-                });
+                returnUnknownError(res);
                 return;
             }
+
             for(i = 0; i < data.length; ++i){
                 var deal = data[i];
                 if(deal.is_visible == false) continue;
 
-                var DEAL_ITEM = {};
-                DEAL_ITEM['id'] = deal._id;
-                DEAL_ITEM['name'] = deal.name;
-                DEAL_ITEM['description'] = deal.description;
-                DEAL_ITEM['deal_type'] = deal.deal_type;
-                DEAL_ITEM['category'] = deal.category;
-                DEAL_ITEM['available_online'] = deal.available_online;
-                DEAL_ITEM['is_main'] = deal.is_main;
-                DEAL_ITEM['is_trending'] = deal.is_trending;
-                DEAL_ITEM['is_special'] = deal.is_special;
-                DEAL_ITEM['is_week_pick'] = deal.is_week_pick;
-                DEAL_ITEM['is_visible'] = deal.is_visible;
-                DEAL_ITEM['percentage'] = deal.percentage;
-                DEAL_ITEM['image_url'] = deal.image_url;
-                DEAL_ITEM['store_logo_url'] = deal.store_logo_url;
-                DEAL_ITEM['store_id'] = deal.store_id;
-                DEAL_ITEM['store_name'] = deal.store_name;
-                DEAL_ITEM['date_created'] = deal.date_created;
-                DEAL_ITEM['is_user_favourite'] = true;
-
-                finalDealList.push(DEAL_ITEM);
+                finalDealList.push(getDealItem(deal));
             }
             var message = 'not_complete';
             if((dealsPerPage*(page+1)) >= total) message ='complete';
@@ -616,18 +530,13 @@ exports.searchDeals = (req, res) => {
         var finalStoreList = [];
         Store.countDocuments(s, (err, total) => {
             if(err){
-                res.json({
-                    status: "error",
-                    message: 'unknown_error'
-                });
+                returnUnknownError(res);
                 return;
             }
+
             Store.find(s).skip(dealsPerPage*page).limit(dealsPerPage).lean().exec((err, data) => {
                 if(err){
-                    res.json({
-                        status: "error",
-                        message: 'unknown_error'
-                    });
+                    returnUnknownError(res);
                     return;
                 }
                 for(i = 0; i < data.length; ++i){
@@ -654,45 +563,19 @@ exports.searchDeals = (req, res) => {
         var finalDealList = [];
         Deal.countDocuments(s, (err, total) => {
             if(err){
-                res.json({
-                    status: "error",
-                    message: 'unknown_error'
-                });
+                returnUnknownError(res);
                 return;
             }
             Deal.find(s).skip(dealsPerPage*page).limit(dealsPerPage).lean().exec((err, data) => {
                 if(err){
-                    res.json({
-                        status: "error",
-                        message: 'unknown_error'
-                    });
+                    returnUnknownError(res);
                     return;
                 }
                 for(i = 0; i < data.length; ++i){
                     var deal = data[i];
                     if(deal.is_visible == false) continue;
 
-                    var DEAL_ITEM = {};
-                    DEAL_ITEM['id'] = deal._id;
-                    DEAL_ITEM['name'] = deal.name;
-                    DEAL_ITEM['description'] = deal.description;
-                    DEAL_ITEM['deal_type'] = deal.deal_type;
-                    DEAL_ITEM['category'] = deal.category;
-                    DEAL_ITEM['available_online'] = deal.available_online;
-                    DEAL_ITEM['is_main'] = deal.is_main;
-                    DEAL_ITEM['is_trending'] = deal.is_trending;
-                    DEAL_ITEM['is_special'] = deal.is_special;
-                    DEAL_ITEM['is_week_pick'] = deal.is_week_pick;
-                    DEAL_ITEM['is_visible'] = deal.is_visible;
-                    DEAL_ITEM['percentage'] = deal.percentage;
-                    DEAL_ITEM['image_url'] = deal.image_url;
-                    DEAL_ITEM['store_logo_url'] = deal.store_logo_url;
-                    DEAL_ITEM['store_id'] = deal.store_id;
-                    DEAL_ITEM['store_name'] = deal.store_name;
-                    DEAL_ITEM['date_created'] = deal.date_created;
-                    DEAL_ITEM['is_user_favourite'] = true;
-
-                    finalDealList.push(DEAL_ITEM);
+                    finalDealList.push(getDealItem(deal));
                 }
                 var message = 'not_complete';
                 if((dealsPerPage*(page+1)) >= total) message ='complete';

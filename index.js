@@ -1,5 +1,3 @@
-//TODO Implement Segment/Mixpanel
-
 const express = require('express');
 const apiRoutes = require("./api-routes");
 const adminRoutes = require("./admin-routes");
@@ -14,9 +12,9 @@ const Sentry = require('@sentry/node');
 
 const app = express();
 const port = process.env.PORT || 9999;
+const db_url = "mongodb+srv://groovenation_api_test:JKZbCVWmzx8o1arX@cluster0.cezun.mongodb.net/elimoo?authSource=admin&replicaSet=atlas-12jllf-shard-0&readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=true"
 
-//mongoose.connect("mongodb://localhost/elimoo", {useNewUrlParser: true, useUnifiedTopology: true});
-mongoose.connect("mongodb+srv://elimooDBUser:elimooDB123@cluster0-z5xos.mongodb.net/elimoo?retryWrites=true&w=majority", {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect(db_url, {useNewUrlParser: true, useUnifiedTopology: true});
 var db = mongoose.connection;
 
 if(!db)
@@ -45,10 +43,6 @@ app.use('/user', userRoutes);
 app.use('/admin', adminRoutes);
 
 app.get('/', (req, res) => {
-    var test = {};
-    test['uname'] = 'CaptainMarvelSJW';
-    test['fname'] = 'Carol Susan Jane Danvers';
-
     res.json({
         status: "API is Running Successfully",
         site: req.protocol + '://' + req.get('host')
