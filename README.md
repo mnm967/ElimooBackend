@@ -1,4 +1,4 @@
-# Elimoo App
+# Elimoo NodeJS / Mongo Backend
 
 Elimoo combines the power of React Native (and Redux), NodeJS and MongoDB to create a cross-platform solution. With Elimoo, users can enjoy exclusive deals for local and online stores, with a wide range of stores and restaurants to choose from.
 
