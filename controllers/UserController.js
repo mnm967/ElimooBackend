@@ -4,8 +4,6 @@ const Notification = require('../models/Notifications');
 const EmailConfirmation = require('../models/EmailConfirmation');
 const PasswordReset = require('../models/PasswordReset');
 const sendmail = require('sendmail')();
-//const sgMail = require('@sendgrid/mail');
-//sgMail.setApiKey('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');
 const mailjet = require ('node-mailjet').connect('27dcb3a02ae46194e940a2d08f187c49', '7cd72286c97792c71fe20c6b57fafcc6');
 const nodemailer = require("nodemailer");
 const otpGenerator = require('otp-generator');
@@ -939,12 +937,6 @@ exports.email_confirmation = function(req, res){
                                 message: 'unknown_error'
                             });
                         }else{
-                            // res.json({
-                            //     status: 'success',
-                            //     message: 'email_sent',
-                            //     data: USER
-                            // });
-                            // return;
                             var logofile = "https://"+req.get('host')+"/uploads/img/elimoo_icon1024.png";
 
                             var html = `<html>
@@ -1138,28 +1130,6 @@ exports.email_confirmation = function(req, res){
                                     message: 'unknown_error'
                                 });
                             });
-                            // var transporter = nodemailer.createTransport({sendmail: true}, {
-                            //     from: 'noreply@elimoo.com',
-                            //     to: instituition_email,
-                            //     subject: 'Elimoo Verification Code',
-                            // });
-                            // transporter.sendMail({
-                            //     html: html
-                            // }, (err, info) => {
-                            //     if(err){
-                            //         res.json({
-                            //             status: 'error',
-                            //             message: 'unknown_error',
-                            //             data: err
-                            //         });
-                            //     }else{
-                            //         res.json({
-                            //             status: 'success',
-                            //             message: 'email_sent',
-                            //             data: info
-                            //         });
-                            //     }
-                            // });
                         }
                     });
                 }
@@ -1819,7 +1789,6 @@ exports.deny_user = function(req, res){
                         status: "success",
                         message: 'user_denied'
                     });
-                    //TODO Send Push Notification
                 }
             })
         }
@@ -2188,70 +2157,6 @@ exports.forgot_password_email = function(req, res){
                                     message: 'unknown_error'
                                 });
                             });
-                            // const msg = {
-                            //     to: req.body.email,
-                            //     from: 'noreply@elimoo.com',
-                            //     subject: 'Elimoo Password Reset',
-                            //     html: html,
-                            //   };
-                        // sgMail.send(msg, false, (err, info) => {
-                        //     if(err){
-                        //         console.log("NodemailerError:", err);
-                        //         console.log("NodemailerError:", info);
-                        //         res.json({
-                        //             status: 'error',
-                        //             message: 'unknown_error'
-                        //         });
-                        //     }else{
-                        //         res.json({
-                        //             status: 'success',
-                        //             message: 'email_sent',
-                        //             data: info
-                        //         });
-                        //     }
-                        // });
-                        // sendmail({
-                        //     from: 'noreply@'+req.get('host'),
-                        //     to: req.body.email,
-                        //     subject: 'Elimoo Password Reset',
-                        //     html: html,
-                        //   }, function(err, info) {
-                        //     if(err){
-                        //         console.log("NodemailerError:", err);
-                        //         res.json({
-                        //             status: 'error',
-                        //             message: 'unknown_error'
-                        //         });
-                        //     }else{
-                        //         res.json({
-                        //             status: 'success',
-                        //             message: 'email_sent',
-                        //             data: info
-                        //         });
-                        //     }
-                        // });
-                        // var transporter = nodemailer.createTransport({sendmail: true}, {
-                        //     from: 'noreply@elimoo.com',
-                        //     to: req.body.email,
-                        //     subject: 'Elimoo Password Reset',
-                        // });
-                        // transporter.sendMail({
-                        //     html: html
-                        // }, (err, info) => {
-                        //     if(err){
-                        //         console.log("NodemailerError:", err);
-                        //         res.json({
-                        //             status: 'error',
-                        //             message: 'unknown_error'
-                        //         });
-                        //     }else{
-                        //         res.json({
-                        //             status: 'success',
-                        //             message: 'email_sent',
-                        //             data: info
-                        //         });
-                        //     }
-                        // });
                     }
                 });
             }
