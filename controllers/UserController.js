@@ -4,7 +4,7 @@ const Notification = require('../models/Notifications');
 const EmailConfirmation = require('../models/EmailConfirmation');
 const PasswordReset = require('../models/PasswordReset');
 const sendmail = require('sendmail')();
-const mailjet = require ('node-mailjet').connect('27dcb3a02ae46194e940a2d08f187c49', '7cd72286c97792c71fe20c6b57fafcc6');
+const mailjet = require ('node-mailjet').connect(process.env.MAILJET_APIKEY_PUBLIC, process.env.MAILJET_APIKEY_PRIVATE);
 const nodemailer = require("nodemailer");
 const otpGenerator = require('otp-generator');
 const md5 = require('md5');
@@ -413,7 +413,7 @@ exports.upload_id_image = async (req, res) => {
                                     "Messages":[
                                         {
                                         "From": {
-                                            "Email": "mothuso@lithiumtech.co.za",
+                                            "Email": process.env.FROM_EMAIL_MAILJET,
                                             "Name": "Elimoo"
                                         },
                                         "To": [
@@ -687,7 +687,7 @@ exports.sendNewEmailConfirmation = function(req, res){
                             "Messages":[
                                 {
                                 "From": {
-                                    "Email": "mothuso@lithiumtech.co.za",
+                                    "Email": process.env.FROM_EMAIL_MAILJET,
                                     "Name": "Elimoo"
                                 },
                                 "To": [
@@ -1102,7 +1102,7 @@ exports.email_confirmation = function(req, res){
                             "Messages":[
                                 {
                                 "From": {
-                                    "Email": "mothuso@lithiumtech.co.za",
+                                    "Email": process.env.FROM_EMAIL_MAILJET,
                                     "Name": "Elimoo"
                                 },
                                 "To": [
@@ -2129,7 +2129,7 @@ exports.forgot_password_email = function(req, res){
                             "Messages":[
                                 {
                                 "From": {
-                                    "Email": "mothuso@lithiumtech.co.za",
+                                    "Email": process.env.FROM_EMAIL_MAILJET,
                                     "Name": "Elimoo"
                                 },
                                 "To": [
