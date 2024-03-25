@@ -12,7 +12,7 @@ const Sentry = require('@sentry/node');
 
 const app = express();
 const port = process.env.PORT || 9999;
-const db_url = "mongodb+srv://groovenation_api_test:JKZbCVWmzx8o1arX@cluster0.cezun.mongodb.net/elimoo?authSource=admin&replicaSet=atlas-12jllf-shard-0&readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=true"
+const db_url = process.env.MONGODB_URI;
 
 mongoose.connect(db_url, {useNewUrlParser: true, useUnifiedTopology: true});
 var db = mongoose.connection;
@@ -22,7 +22,7 @@ if(!db)
 else
     console.log("Database Connected Successfully");
 
-Sentry.init({ dsn: 'https://64831afb121749eb9b5356e70c54feba@o405222.ingest.sentry.io/5270515' });
+Sentry.init({ dsn: process.env.SENTRY_DSN });
 
 app.use(Sentry.Handlers.requestHandler());
 
